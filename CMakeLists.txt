@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 2.8)
-project (main)
 
 find_package(SWIG REQUIRED)
 find_package(Java REQUIRED)
