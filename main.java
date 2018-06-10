@@ -1,6 +1,6 @@
 public class main {
    public static void main(String argv[]) {
-     System.loadLibrary("rdfa"); // Attempts to load example.dll (on Windows) or libexample.so (on Linux)
+     System.loadLibrary("rdfaJava"); // Attempts to load example.dll (on Windows) or libexample.so (on Linux)
      System.out.println(rdfa.RDF_TYPE_NAMESPACE_PREFIX);
 
 

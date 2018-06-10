@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
+project (main)
 
 find_package(SWIG REQUIRED)
 find_package(Java REQUIRED)
@@ -14,7 +15,10 @@ include(UseSWIG)
 
 include_directories(${LIBXML2_INCLUDE_DIR})
 include_directories(${JNI_INCLUDE_DIRS})
-link_directories(/usr/local/lib)
+#link_directories(/usr/local/lib)
+link_libraries(rdfa)
+
+
 
 set( CMAKE_SWIG_OUTDIR ${CMAKE_CURRENT_BINARY_DIR} )
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/..)
@@ -27,7 +31,7 @@ set_property(SOURCE rdfa.i PROPERTY CPLUSPLUS ON)
 
 # Build the C++ code into a dynamic library: example.dll (on Windows) or libexample.so (on Linux)
 swig_add_module(
-    rdfa
+    rdfaJava
     java
     rdfa.i
     RdfaParser.cpp
@@ -35,9 +39,9 @@ swig_add_module(
 
 # For convenience we copy the dynamic library to the current build folder
 add_custom_command(
-    TARGET rdfa
+    TARGET rdfaJava
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:rdfa> ${CMAKE_CURRENT_BINARY_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:rdfaJava> ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 # Build the Java code into ExampleJNI.jar
@@ -47,7 +51,7 @@ add_jar(
     ${CMAKE_SWIG_OUTDIR}/rdfa.java
     ${CMAKE_SWIG_OUTDIR}/rdfaJNI.java
 )
-add_dependencies( RdfaJNI rdfa )
+add_dependencies( RdfaJNI rdfaJava )
 
 # Finally build the demonstration code into Main.jar
 
