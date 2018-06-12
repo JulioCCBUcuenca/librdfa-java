@@ -19,115 +19,110 @@
 #ifndef _RDFA_PARSER_H_
 #define _RDFA_PARSER_H_
 
-#include <string>
+#include <string.h>
 #include <cstdio>
 #include <iostream>
 #include <rdfa.h>
 #include <rdfa_utils.h>
-// #include "RdfaParser.h"
+#include <stdlib.h>
 
 struct rdfacontext;
 
-#define ACQUIRE_GIL PyGILState_STATE state; if(gRdfaParser->mUseGil) state = PyGILState_Ensure()
-#define RELEASE_GIL if(gRdfaParser->mUseGil) PyGILState_Release(state)
-
 class Callback {
 public:
-	virtual ~Callback() { std::cout << "Callback::~Callback()" << std:: endl; }
-	virtual char* run(char* ctx) { std::cout << "Callback::run() C++ ." << std::endl; }
-};
+
+  virtual ~Callback() {
+    std::cout << "Callback::~Callback()" << std::endl;
+  }
+
+  virtual void default_graph(char* subject, char* predicate, char* object, int object_type, char* datatype, char* language) {
+  }
+
+  virtual void processor_graph(char* subject, char* predicate, char* object, int object_type, char* datatype, char* language) {
+  }
+
+  virtual char * fill_data(size_t buffer_length) {
+  }
+
+  virtual size_t fill_len() {
+  }
 
 
-class Caller {
-private:
-	Callback *_callback;
-public:
-	Caller(): _callback(0) {}
-	~Caller() { delCallback(); }
-	void delCallback() { delete _callback; _callback = 0; }
-	void setCallback(Callback *cb) { delCallback(); _callback = cb; }
-	void call() {
-    if (_callback){
-    char* ctx = _callback->run("http://example.org/speed");
-    rdfa_create_context(ctx);
-  }}
+
+
 };
 
 /**
  * The RdfaParser class is a wrapper class for Python to provide a
  * simple API for using librdfa in Python.
  */
-class RdfaParser
-{
+class RdfaParser {
+private:
+  Callback *_callback;
 public:
-   /**
-    * The base URI that will be used when resolving relative pathnames
-    * in the document.
-    */
-   std::string mBaseUri;
+  /**
+   * The base URI that will be used when resolving relative pathnames
+   * in the document.
+   */
+  std::string mBaseUri;
 
-   /**
-    * The base RDFa context to use when setting the triple handler callback,
-    * buffer filler callback, and executing the parser call.
-    */
-   rdfacontext* mBaseContext;
+  /**
+   * The base RDFa context to use when setting the triple handler callback,
+   * buffer filler callback, and executing the parser call.
+   */
+  rdfacontext* mBaseContext;
 
-   /**
-    * The language-specific callback for filling the buffer.
-    */
-   void* mBufferFillerCallback;
+  RdfaParser(const char* baseUri) : _callback(0) {
+    mBaseUri = baseUri;
+    mBaseContext = rdfa_create_context(baseUri);
+  }
 
-   /**
-    * The language-specific callback data needed to fill the buffer.
-    */
-   void* mBufferFillerData;
+  void c_process_default_graph_triple(rdftriple* triple, void* callback_data) {
+    _callback->default_graph(triple->subject, triple-> predicate, triple->object, triple->object_type, triple-> datatype, triple-> language);
+    rdfa_free_triple(triple);
+  }
 
-   /**
-    * The language-specific callback for handling newly created triples
-    * from the default graph.
-    */
-   void* mDefaultGraphTripleHandlerCallback;
+  void c_process_processor_graph_triple(rdftriple* triple, void* callback_data) {
+    _callback->processor_graph(triple->subject, triple-> predicate, triple->object, triple->object_type, triple-> datatype, triple-> language);
+    rdfa_free_triple(triple);
+  }
 
-   /**
-    * The language-specific callback for handling processor graph created
-    * triples.
-    */
-   void* mProcessorGraphTripleHandlerCallback;
+  size_t c_fill_buffer(char* buffer, size_t buffer_length, void* callback_data) {
+    char* da = _callback->fill_data(buffer_length);
+    size_t l = _callback->fill_len();
+    memset(buffer, ' ', buffer_length);
+    memcpy(buffer, da, l);
 
-   /**
-    * The language-specific callback data needed to handle the triple.
-    */
-   void* mTripleHandlerData;
+    return l;
+  }
 
-   /**
-    * Flag to specify whether or not to use the Global Interpreter Lock.
-    */
-   bool mUseGil;
+  /**
+   * Standard destructor.
+   */
+  ~RdfaParser() {
+    rdfa_free_context(mBaseContext);
+    delCallback();
+  }
 
-   /**
-    * Standard constructor for the RDFa parser.
-    *
-    * @param baseUri the base URI to use when resolving relative
-    *                pathnames in the document. This value should be
-    *                the fully qualified URI to the document.
-    * @param useGil uses the Python Global Interpreter Lock. Turned on by
-    *               default, but there may be some places where you don't want
-    *               to use this, like from within Apache.
-    */
-   RdfaParser(const char* baseUri, bool useGil = 1);
+  /**
+   * Starts the parsing process for librdfa. When more data is
+   * required by the XML parser, the buffer filler callback is
+   * called. If triples are found, then the triple handler callback
+   * is called.
+   */
+  int parse() {
+    return rdfa_parse(mBaseContext);
+  }
 
-   /**
-    * Standard destructor.
-    */
-   ~RdfaParser();
+  void delCallback() {
+    delete _callback;
+    _callback = 0;
+  }
 
-   /**
-    * Starts the parsing process for librdfa. When more data is
-    * required by the XML parser, the buffer filler callback is
-    * called. If triples are found, then the triple handler callback
-    * is called.
-    */
-   int parse();
+  void setCallback(Callback *cb) {
+    delCallback();
+    _callback = cb;
+  }
 };
 
 #endif /* _RDFA_PARSER_H_ */

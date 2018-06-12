@@ -16,22 +16,4 @@
  * License along with librdfa. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-#include <rdfa.h>
 #include "RdfaParser.h"
-
-RdfaParser::RdfaParser(const char* baseUri, bool useGil)
-{
-   mBaseUri = baseUri;
-   mBaseContext = rdfa_create_context(baseUri);
-   mUseGil = useGil;
-}
-
-RdfaParser::~RdfaParser()
-{
-   rdfa_free_context(mBaseContext);
-}
-
-int RdfaParser::parse()
-{
-   return rdfa_parse(mBaseContext);
-}
