@@ -51,16 +51,19 @@ class JavaCallback extends Callback {
 
   @Override
   public void default_graph(String subject, String predicate, String object, int object_type, String datatype, String language) {
-    System.out.println("S=" + subject + "P=" + predicate + "O=" + object + "OT=" + object_type);
+    System.out.println("default_graph(...)");
+    System.out.println("S=" + subject + "P=" + predicate + "O=" + object + "OT=" + object_type + "DT=" + datatype + "LANG=" + language);
   }
 
   @Override
   public void processor_graph(String subject, String predicate, String object, int object_type, String datatype, String language) {
-    System.out.println("S=" + subject + "P=" + predicate + "O=" + object + "OT=" + object_type);
+    System.out.println("processor_graph(...)");
+    System.out.println("S=" + subject + "P=" + predicate + "O=" + object + "OT=" + object_type + datatype + "LANG=" + language);
   }
 
   @Override
   public String fill_data(long buffer_length) {
+    System.out.println("buffer_length:" + buffer_length);
     StringBuilder sb = new StringBuilder(new StringBuffer((int) buffer_length));
     len = 0;
     try {

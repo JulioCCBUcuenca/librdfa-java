@@ -41,19 +41,15 @@ public:
   virtual void processor_graph(char* subject, char* predicate, char* object, int object_type, char* datatype, char* language) {
   }
 
-  virtual char * fill_data(size_t buffer_length) {
+  virtual char* fill_data(size_t buffer_length) {
   }
 
   virtual size_t fill_len() {
   }
-
-
-
-
 };
 
 /**
- * The RdfaParser class is a wrapper class for Python to provide a
+ * The RdfaParser class is a wrapper class for Java to provide a
  * simple API for using librdfa in Python.
  */
 class RdfaParser {
@@ -88,12 +84,12 @@ public:
   }
 
   size_t c_fill_buffer(char* buffer, size_t buffer_length, void* callback_data) {
-    char* da = _callback->fill_data(buffer_length);
-    size_t l = _callback->fill_len();
+    char* data = _callback->fill_data(buffer_length);
+    size_t size = _callback -> fill_len();
     memset(buffer, ' ', buffer_length);
-    memcpy(buffer, da, l);
+    memcpy(buffer, data, size);
 
-    return l;
+    return size;
   }
 
   /**
