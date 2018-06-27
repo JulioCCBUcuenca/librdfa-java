@@ -73,6 +73,14 @@ public:
     mBaseContext = rdfa_create_context(baseUri);
   }
 
+  /**
+   * Standard destructor.
+   */
+  ~RdfaParser() {
+    rdfa_free_context(mBaseContext);
+    delCallback();
+  }
+
   void c_process_default_graph_triple(rdftriple* triple, void* callback_data) {
     _callback->default_graph(triple->subject, triple-> predicate, triple->object, triple->object_type, triple-> datatype, triple-> language);
     rdfa_free_triple(triple);
@@ -88,16 +96,8 @@ public:
     size_t size = _callback -> fill_len();
     memset(buffer, ' ', buffer_length);
     memcpy(buffer, data, size);
-
+    
     return size;
-  }
-
-  /**
-   * Standard destructor.
-   */
-  ~RdfaParser() {
-    rdfa_free_context(mBaseContext);
-    delCallback();
   }
 
   /**
