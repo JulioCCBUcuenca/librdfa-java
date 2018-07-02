@@ -19,7 +19,6 @@ import org.apache.any23.librdfa.RdfaParser;
 
 /**
  *
- * @author Xavier Sumba <xavier.sumba93@ucuenca.ec>
  */
 public class Main {
 
