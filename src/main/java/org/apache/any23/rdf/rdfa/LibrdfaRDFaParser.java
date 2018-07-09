@@ -19,7 +19,7 @@ package org.apache.any23.rdf.rdfa;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import org.apache.any23.rdf.librdfa.utils.LibraryLoader;
+import org.apache.any23.rdf.rdfa.utils.LibraryLoader;
 import org.apache.any23.rdf.librdfa.RdfaParser;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.eclipse.rdf4j.rio.RDFHandlerException;
