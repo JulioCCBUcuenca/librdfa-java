@@ -1,15 +1,12 @@
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.any23.librdfa.Callback;
-import org.apache.any23.librdfa.RdfaParser;
+import org.apache.any23.rdf.librdfa.Callback;
+import org.apache.any23.rdf.librdfa.RdfaParser;
 
 public class main {
 

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.any23.librdfa.utils;
+package org.apache.any23.rdf.librdfa.utils;
 
 import ec.edu.cedia.redi.testlibrdfajava.Main;
 import java.io.File;

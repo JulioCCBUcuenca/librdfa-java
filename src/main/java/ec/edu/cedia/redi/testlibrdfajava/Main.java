@@ -14,8 +14,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import org.apache.any23.librdfa.Callback;
-import org.apache.any23.librdfa.RdfaParser;
+import org.apache.any23.rdf.librdfa.Callback;
+import org.apache.any23.rdf.librdfa.RdfaParser;
 
 /**
  *

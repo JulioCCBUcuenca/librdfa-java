@@ -21,8 +21,8 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/..)
 link_libraries(rdfa)
 
 # Build the C++ code into a dynamic library: rdfaJava.dll (on Windows) or librdfaJava.so (on Linux)
-set(CMAKE_SWIG_FLAGS -package org.apache.any23.librdfa)
-set(CMAKE_SWIG_OUTDIR "${CMAKE_CURRENT_BINARY_DIR}/org/apache/any23/librdfa")
+set(CMAKE_SWIG_FLAGS -package org.apache.any23.rdf.librdfa)
+set(CMAKE_SWIG_OUTDIR "${CMAKE_CURRENT_BINARY_DIR}/org/apache/any23/rdf/librdfa")
 set_property(SOURCE rdfa.i PROPERTY CPLUSPLUS ON)
 swig_add_module(
     rdfaJava

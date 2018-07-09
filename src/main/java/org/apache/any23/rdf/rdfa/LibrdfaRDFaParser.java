@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.any23.librdfa;
+package org.apache.any23.rdf.rdfa;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import org.apache.any23.librdfa.utils.LibraryLoader;
+import org.apache.any23.rdf.librdfa.utils.LibraryLoader;
+import org.apache.any23.rdf.librdfa.RdfaParser;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.eclipse.rdf4j.rio.RDFParseException;
