@@ -21,7 +21,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.rio.RDFHandler;
 
@@ -48,9 +52,30 @@ public class LibrdfaFilter extends Callback {
 
     @Override
     public void default_graph(String subject, String predicate, String object, int object_type, String datatype, String language) {
+        System.out.println(rdfa.RDF_TYPE_NAMESPACE_PREFIX); //0
+        System.out.println(rdfa.RDF_TYPE_XML_LITERAL); // 3
+
         System.out.println("default_graph(...)");
-        Statement stmt = valueFactory.createStatement(valueFactory.createIRI(subject), valueFactory.createIRI(predicate), valueFactory.createLiteral(object));
-        handler.handleStatement(stmt);
+
+        IRI s = valueFactory.createIRI(subject);
+        IRI p = valueFactory.createIRI(predicate);
+        Value o = null;
+        if (object_type == rdfa.RDF_TYPE_IRI) { // 1
+            o = valueFactory.createIRI(object);
+        } else if (object_type == rdfa.RDF_TYPE_PLAIN_LITERAL) { // 2
+            o = valueFactory.createLiteral(object);
+        } else if (object_type == rdfa.RDF_TYPE_TYPED_LITERAL) { // 4
+            if (language != null) {
+                o = valueFactory.createLiteral(object, language);
+            } else {
+                IRI dt = valueFactory.createIRI(datatype);
+                o = valueFactory.createLiteral(object, dt);
+            }
+        }
+        Statement stmt = valueFactory.createStatement(s, p, o);
+        if (handler != null) {
+            handler.handleStatement(stmt);
+        }
         System.out.println("S=" + subject + "P=" + predicate + "O=" + object + "OT=" + object_type + "DT=" + datatype + "LANG=" + language);
     }
 
@@ -59,26 +84,30 @@ public class LibrdfaFilter extends Callback {
         if (handler != null) {
             handler.handleNamespace(predicate, object);
         }
-        System.out.println("S=" + subject + "P=" + predicate + "O=" + object + "OT=" + object_type + datatype + "LANG=" + language);
+        System.out.println("Processor: S=" + subject + "P=" + predicate + "O=" + object + "OT=" + object_type + datatype + "LANG=" + language);
     }
 
     @Override
     public String fill_data(long buffer_length) {
         System.out.println("buffer_length:" + buffer_length);
-        StringBuilder sb = new StringBuilder(new StringBuffer((int) buffer_length));
-        len = 0;
+        char[] d = new char[(int) buffer_length];
+
         try {
-            for (int c; (c = bis.read()) != -1;) {
-                sb.append((char) c);
-                len++;
-            }
+            len = bis.read(d, 0, (int) buffer_length);
+            System.out.println(len);
         } catch (IOException ex) {
+            Logger.getLogger(LibrdfaFilter.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return sb.toString();
+
+        return new String(d);
     }
 
     @Override
     public long fill_len() {
+        System.out.println("fill len " + len);
+        if (len == -1) {
+            return 0;
+        }
         return len;
     }
 
