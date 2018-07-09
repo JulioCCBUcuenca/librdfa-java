@@ -9,6 +9,12 @@
   size_t fill_buffer(char* buffer, size_t buffer_length, void* callback_data);
 %}
 
+%constant int RDF_TYPE_NAMESPACE_PREFIX = RDF_TYPE_NAMESPACE_PREFIX;
+%constant int RDF_TYPE_IRI = RDF_TYPE_IRI;
+%constant int RDF_TYPE_PLAIN_LITERAL = RDF_TYPE_PLAIN_LITERAL;
+%constant int RDF_TYPE_XML_LITERAL = RDF_TYPE_XML_LITERAL;
+%constant int RDF_TYPE_TYPED_LITERAL = RDF_TYPE_TYPED_LITERAL;
+
 %{
   void process_default_graph_triple(rdftriple* triple, void* callback_data){
     gRdfaParser->c_process_default_graph_triple(triple,  callback_data);
