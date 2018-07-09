@@ -37,21 +37,3 @@ add_custom_command(
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:rdfaJava> ${CMAKE_CURRENT_BINARY_DIR}
 )
-
-# Build the Java code into RdfaJNI.jar
-add_jar(
-    RdfaJNI
-    SOURCES
-    ${CMAKE_SWIG_OUTDIR}/rdfa.java
-    ${CMAKE_SWIG_OUTDIR}/rdfaJNI.java
-)
-add_dependencies( RdfaJNI rdfaJava )
-
-# Finally build the demonstration code into Main.jar
-set(CMAKE_JAVA_JAR_ENTRY_POINT main)
-add_jar(
-    Main
-    SOURCES main.java
-    ENTRY_POINT main
-)
-add_dependencies( Main RdfaJNI )

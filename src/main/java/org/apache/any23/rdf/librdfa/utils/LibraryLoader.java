@@ -16,7 +16,7 @@
  */
 package org.apache.any23.rdf.librdfa.utils;
 
-import ec.edu.cedia.redi.testlibrdfajava.Main;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,7 +35,7 @@ public final class LibraryLoader {
             System.loadLibrary(name);
         } catch (UnsatisfiedLinkError e) {
             String filename = System.mapLibraryName(name);
-            InputStream in = Main.class.getClassLoader().getResourceAsStream(filename);
+            InputStream in = LibraryLoader.class.getClassLoader().getResourceAsStream(filename);
             int pos = filename.lastIndexOf('.');
             File file = File.createTempFile(filename.substring(0, pos), filename.substring(pos));
             file.deleteOnExit();

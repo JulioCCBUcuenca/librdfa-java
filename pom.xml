@@ -11,6 +11,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <jni.base>${project.basedir}/src/main/c/</jni.base>
         <jni.build>${jni.base}/build/</jni.build>
+        <rdf4j.version>2.2.4</rdf4j.version>
     </properties>
     
     <build>
@@ -98,7 +99,14 @@
         <dependency>
             <groupId>org.eclipse.rdf4j</groupId>
             <artifactId>rdf4j-rio-api</artifactId> 
-            <version>2.2.4</version>
+            <version>${rdf4j.version}</version>
+        </dependency>
+        <!--Testing-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     

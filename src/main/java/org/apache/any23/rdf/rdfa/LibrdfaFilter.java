@@ -54,10 +54,7 @@ public class LibrdfaFilter extends Callback {
 
     @Override
     public void default_graph(String subject, String predicate, String object, int object_type, String datatype, String language) {
-        System.out.println(rdfa.RDF_TYPE_NAMESPACE_PREFIX); //0
-        System.out.println(rdfa.RDF_TYPE_XML_LITERAL); // 3
-
-        System.out.println("default_graph(...)");
+//        rdfa.RDF_TYPE_XML_LITERAL // 3
 
         IRI s = valueFactory.createIRI(subject);
         IRI p = valueFactory.createIRI(predicate);
@@ -74,29 +71,28 @@ public class LibrdfaFilter extends Callback {
                 o = valueFactory.createLiteral(object, dt);
             }
         }
-        Statement stmt = valueFactory.createStatement(s, p, o);
-        if (handler != null) {
+        if (handler != null && o != null) {
+            Statement stmt = valueFactory.createStatement(s, p, o);
             handler.handleStatement(stmt);
+        } else {
+            System.err.println("VALIDATE: S=" + subject + "P=" + predicate + "O=" + object + "OT=" + object_type + "DT=" + datatype + "LANG=" + language);
         }
-        System.out.println("S=" + subject + "P=" + predicate + "O=" + object + "OT=" + object_type + "DT=" + datatype + "LANG=" + language);
     }
 
     @Override
     public void processor_graph(String subject, String predicate, String object, int object_type, String datatype, String language) {
-        if (handler != null) {
+//        System.out.println("Processor: S=" + subject + "\tP=" + predicate + "\tO=" + object + "\tOT=" + object_type + "\tDT:" + datatype + "\tLANG=" + language);
+        if (handler != null && rdfa.RDF_TYPE_NAMESPACE_PREFIX == object_type) { // 0
             handler.handleNamespace(predicate, object);
         }
-        System.out.println("Processor: S=" + subject + "P=" + predicate + "O=" + object + "OT=" + object_type + datatype + "LANG=" + language);
     }
 
     @Override
     public String fill_data(long buffer_length) {
-        System.out.println("buffer_length:" + buffer_length);
         char[] d = new char[(int) buffer_length];
 
         try {
             len = bis.read(d, 0, (int) buffer_length);
-            System.out.println(len);
         } catch (IOException ex) {
             Logger.getLogger(LibrdfaFilter.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -106,7 +102,6 @@ public class LibrdfaFilter extends Callback {
 
     @Override
     public long fill_len() {
-        System.out.println("fill len " + len);
         if (len == -1) {
             return 0;
         }
