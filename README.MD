@@ -20,3 +20,27 @@ Model model = new LinkedHashModel();
 rdfParser.setRDFHandler(new StatementCollector(model));
 rdfParser.parse(in, "http://www.example.org./");
 ```
+
+## Benchmarking
+
+In general librdfa is 2-5 seconds faster than semargl, but more tests are coming :D.  
+
+### librdfa-rdf4j
+- round: 0.11 [+- 0.00] 
+- round.block: 0.00 [+- 0.00]
+- round.gc: 0.00 [+- 0.00]
+- GC.calls: 0
+- GC.time: 0.00
+- time.total: 0.11
+- time.warmup: 0.00
+- time.bench: 0.11
+
+### semargl-rdf4j
+- round: 0.15 [+- 0.00]
+- round.block: 0.00 [+- 0.00]
+- round.gc: 0.00 [+- 0.00]
+- GC.calls: 1
+- GC.time: 0.00
+- time.total: 0.15
+- time.warmup: 0.00
+- time.bench: 0.15

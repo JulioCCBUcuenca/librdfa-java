@@ -50,7 +50,7 @@ public:
 
 /**
  * The RdfaParser class is a wrapper class for Java to provide a
- * simple API for using librdfa in Python.
+ * simple API for using librdfa in Java.
  */
 class RdfaParser {
 private:
