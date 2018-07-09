@@ -5,13 +5,20 @@
     <artifactId>apache-any23-librdfa</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <name>Apache Any23 :: Librdfa</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        
         <jni.base>${project.basedir}/src/main/c/</jni.base>
         <jni.build>${jni.base}/build/</jni.build>
+        
         <rdf4j.version>2.2.4</rdf4j.version>
+        <junit.version>4.12</junit.version>
+        <junit.benchmarks.version>0.7.2</junit.benchmarks.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <semargl.rdf4j.version>0.7</semargl.rdf4j.version>
     </properties>
     
     <build>
@@ -101,35 +108,30 @@
             <artifactId>rdf4j-rio-api</artifactId> 
             <version>${rdf4j.version}</version>
         </dependency>
+        
         <!--Testing-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.25</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>25.1-jre</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.carrotsearch</groupId>
             <artifactId>junit-benchmarks</artifactId>
-            <version>0.7.2</version>
+            <version>${junit.benchmarks.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.semarglproject</groupId>
             <artifactId>semargl-rdf4j</artifactId>
-            <version>0.7</version>
+            <version>${semargl.rdf4j.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

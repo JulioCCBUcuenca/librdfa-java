@@ -34,6 +34,7 @@ import org.semarglproject.rdf4j.rdf.rdfa.RDF4JRDFaParser;
  *
  * @author Julio Caguano
  */
+@BenchmarkOptions(callgc = true, benchmarkRounds = 1, warmupRounds = 0)
 public class LibrdfaRDFaBenchmarkTest extends AbstractBenchmark {
 
     private final int ITERATIONS = 300;
@@ -51,16 +52,13 @@ public class LibrdfaRDFaBenchmarkTest extends AbstractBenchmark {
         DOCUMENT += "</p></body></html>";
     }
 
-    @BenchmarkOptions(benchmarkRounds = 1, warmupRounds = 0)
     @Test
     public void testSemargl() throws Exception {
         runTest(new RDF4JRDFaParser());
     }
 
-    @BenchmarkOptions(benchmarkRounds = 1, warmupRounds = 0)
     @Test
     public void testLibrdfa() throws IOException {
-        System.out.println("lib");
         runTest(new LibrdfaRDFaParser());
     }
 

@@ -1,5 +1,7 @@
 # Librdfa - RDF4J
 
+RDF4J parser that uses [librdfa](https://github.com/rdfa/librdfa) to parse RDFa to triples.
+
 ## Prerequisites
 
 You need to install the [librdfa](https://github.com/rdfa/librdfa) library.
@@ -10,11 +12,11 @@ You need to install the [librdfa](https://github.com/rdfa/librdfa) library.
 
 ## Use
 
-Add the library and you can parse an `InputStream` as you would do with `[Rio](http://docs.rdf4j.org/javadoc/2.1/org/eclipse/rdf4j/rio/Rio.html)`.
+Add the library and you can parse an `InputStream` as you would do with [`Rio`](http://docs.rdf4j.org/javadoc/2.1/org/eclipse/rdf4j/rio/Rio.html).
 
 ``` java
-    RDFParser rdfParser = Rio.createParser(RDFFormat.RDFA);
-    Model model = new LinkedHashModel();
-    rdfParser.setRDFHandler(new StatementCollector(model));
-    rdfParser.parse(in2, "http://www.example.org./");
+RDFParser rdfParser = Rio.createParser(RDFFormat.RDFA);
+Model model = new LinkedHashModel();
+rdfParser.setRDFHandler(new StatementCollector(model));
+rdfParser.parse(in, "http://www.example.org./");
 ```
