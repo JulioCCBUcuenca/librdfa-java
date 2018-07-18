@@ -32,7 +32,7 @@ class Callback {
 public:
 
   virtual ~Callback() {
-    std::cout << "Callback::~Callback()" << std::endl;
+    //std::cout << "Callback::~Callback()" << std::endl;
   }
 
   virtual void default_graph(char* subject, char* predicate, char* object, int object_type, char* datatype, char* language) {
