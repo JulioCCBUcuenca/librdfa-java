@@ -19,8 +19,8 @@ package org.apache.any23.rdf.rdfa;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import org.apache.any23.rdf.rdfa.utils.LibraryLoader;
 import org.apache.any23.rdf.librdfa.RdfaParser;
+import org.apache.any23.rdf.rdfa.utils.LibraryLoader;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.eclipse.rdf4j.rio.RDFParseException;
@@ -56,6 +56,7 @@ public class LibrdfaRDFaParser extends AbstractRDFParser {
 
         RdfaParser parser = new RdfaParser(baseURI);
         parser.init();
+        
         LibrdfaFilter filter = new LibrdfaFilter(in);
         parser.setCallback(filter);
 
@@ -63,6 +64,9 @@ public class LibrdfaRDFaParser extends AbstractRDFParser {
         filter.setValueFactory(valueFactory);
 
         parser.parse();
+        
+        parser.delCallback();
+        parser.delete();
     }
 
     @Override
@@ -83,6 +87,9 @@ public class LibrdfaRDFaParser extends AbstractRDFParser {
         filter.setValueFactory(valueFactory);
 
         parser.parse();
+        
+        parser.delCallback();
+        parser.delete();
     }
 
 }
