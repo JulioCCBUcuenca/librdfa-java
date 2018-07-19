@@ -81,9 +81,10 @@ public class LibrdfaFilter extends Callback {
 
     @Override
     public void processor_graph(String subject, String predicate, String object, int object_type, String datatype, String language) {
-//        System.out.println("Processor: S=" + subject + "\tP=" + predicate + "\tO=" + object + "\tOT=" + object_type + "\tDT:" + datatype + "\tLANG=" + language);
         if (handler != null && rdfa.RDF_TYPE_NAMESPACE_PREFIX == object_type) { // 0
             handler.handleNamespace(predicate, object);
+        } else {
+            System.out.println("Processor: S=" + subject + "\tP=" + predicate + "\tO=" + object + "\tOT=" + object_type + "\tDT:" + datatype + "\tLANG=" + language);
         }
     }
 
