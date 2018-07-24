@@ -29,6 +29,7 @@ import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.rio.RDFHandler;
 
 /**
@@ -54,21 +55,22 @@ public class LibrdfaFilter extends Callback {
 
     @Override
     public void default_graph(String subject, String predicate, String object, int object_type, String datatype, String language) {
-//        rdfa.RDF_TYPE_XML_LITERAL // 3
-
         IRI s = valueFactory.createIRI(subject);
         IRI p = valueFactory.createIRI(predicate);
         Value o = null;
+
         if (object_type == rdfa.RDF_TYPE_IRI) { // 1
             o = valueFactory.createIRI(object);
         } else if (object_type == rdfa.RDF_TYPE_PLAIN_LITERAL) { // 2
             o = valueFactory.createLiteral(object);
+        } else if (object_type == rdfa.RDF_TYPE_XML_LITERAL) { // 3
+            o = valueFactory.createLiteral(object, RDF.XMLLITERAL);
         } else if (object_type == rdfa.RDF_TYPE_TYPED_LITERAL) { // 4
-            if (language != null) {
-                o = valueFactory.createLiteral(object, language);
-            } else {
+            if (datatype != null) {
                 IRI dt = valueFactory.createIRI(datatype);
                 o = valueFactory.createLiteral(object, dt);
+            } else {
+                o = valueFactory.createLiteral(object, language);
             }
         }
         if (handler != null && o != null) {
