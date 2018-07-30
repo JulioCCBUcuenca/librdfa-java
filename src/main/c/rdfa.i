@@ -3,6 +3,7 @@
 
 %{
   #include "RdfaParser.h"
+
   RdfaParser* gRdfaParser = NULL;
   void process_default_graph_triple(rdftriple* triple, void* callback_data);
   void process_processor_graph_triple(rdftriple* triple, void* callback_data);
@@ -31,9 +32,9 @@
 
 %extend RdfaParser {
     void init (){
-      gRdfaParser = self;
-      rdfa_set_default_graph_triple_handler(gRdfaParser->mBaseContext, &process_default_graph_triple);
-      rdfa_set_processor_graph_triple_handler(gRdfaParser->mBaseContext, &process_processor_graph_triple);
-      rdfa_set_buffer_filler(gRdfaParser->mBaseContext, &fill_buffer);
+        gRdfaParser = self;
+        rdfa_set_default_graph_triple_handler(gRdfaParser->mBaseContext, &process_default_graph_triple);
+        rdfa_set_processor_graph_triple_handler(gRdfaParser->mBaseContext, &process_processor_graph_triple);
+        rdfa_set_buffer_filler(gRdfaParser->mBaseContext, &fill_buffer);
     }
 }

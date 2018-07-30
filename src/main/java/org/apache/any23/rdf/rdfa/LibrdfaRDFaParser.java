@@ -56,17 +56,17 @@ public class LibrdfaRDFaParser extends AbstractRDFParser {
 
         RdfaParser parser = new RdfaParser(baseURI);
         parser.init();
-        
+
         LibrdfaFilter filter = new LibrdfaFilter(in);
         parser.setCallback(filter);
 
         filter.setHandler(rdfHandler);
         filter.setValueFactory(valueFactory);
 
-        parser.parse();
-        
+        int status = parser.parse();
+
         parser.delCallback();
-        parser.delete();
+        filter.delete();
     }
 
     @Override
@@ -87,7 +87,7 @@ public class LibrdfaRDFaParser extends AbstractRDFParser {
         filter.setValueFactory(valueFactory);
 
         parser.parse();
-        
+
         parser.delCallback();
         parser.delete();
     }
