@@ -6,6 +6,23 @@ RDF4J parser that uses [librdfa](https://github.com/rdfa/librdfa) to parse RDFa 
 
 You need to install the [librdfa](https://github.com/rdfa/librdfa) library.
 
+## Install
+
+``` mvn
+<dependency>
+   <groupId>org.apache.any23</groupId>
+   <artifactId>apache-any23-librdfa</artifactId>
+   <version>1.0.0</version>
+</dependency>
+
+<repositories>
+   <repository>
+       <id>librdfa-rdf4j</id>
+       <url>https://raw.github.com/JulioCCBUcuenca/librdfa-java/repository/</url>
+   </repository>
+</repositories>
+```
+
 ## Compile
 
 `mvn clean install`
@@ -23,7 +40,7 @@ rdfParser.parse(in, "http://www.example.org./");
 
 ## Benchmarking
 
-In general librdfa is 2-5 seconds faster than semargl, but more tests are coming :D.  
+In general librdfa is 2-5 seconds faster than semargl.  
 
 ### librdfa-rdf4j
 - round: 0.11 [+- 0.00] 
